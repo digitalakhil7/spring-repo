@@ -1,8 +1,10 @@
-Dependencies: Lombok, DevTools, Web, Thymeleaf, Jpa, MySql/H2, Validation
+## Home Page
 ![Screen Shot 2024-03-15 at 11 01 20 AM](https://github.com/digitalakhil7/spring-repo/assets/63640168/9debd18b-1e2e-4d4c-a918-b1621d9886e4)
+## Products List Page
 ![Screen Shot 2024-03-15 at 11 00 33 AM](https://github.com/digitalakhil7/spring-repo/assets/63640168/1cd6989a-0975-4126-8926-9d9fff302749)
+## Empty Products List Page
 ![Screen Shot 2024-03-15 at 11 00 54 AM](https://github.com/digitalakhil7/spring-repo/assets/63640168/77a63312-8ec9-4b9b-a0e4-b708aafc3ef4)
-
+### Dependencies: Lombok, DevTools, Web, Thymeleaf, Jpa, MySql/H2, Validation <br>
 ### application.properties
 ```properties
 #DataBaseConnection
