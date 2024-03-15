@@ -27,11 +27,22 @@ spring.jpa.hibernate.ddl-auto=update
 @AllArgsConstructor
 public class Product {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotBlank(message = "Name cannot be empty")
+	@Size(message = "Name should be min 3 and max 15 chars", min=3, max=15)
 	private String name;
+	
+	@NotNull(message = "Price cannot be null")
+	@Positive(message = "Price should be greater than 0")
 	private Double price;
+	
+	@NotNull(message = "Quantity cannot be null")
+	@Positive(message = "Quantity should be greater than 0")
 	private Integer quantity;
+	
+//	@Email - for email validation
 }
 ```
 
@@ -58,7 +69,13 @@ public class MyController {
 	}
 	
 	@PostMapping("/saveProduct")
-	public String saveProduct(Model model, @ModelAttribute("product") Product product) {
+	public String saveProduct(Model model, @Validated @ModelAttribute("product") Product product,
+			BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "index";
+		}
+		
 		product = repo.save(product);
 		if(product.getId()!=null) {
 			model.addAttribute("msg","Product Saved");
@@ -76,6 +93,32 @@ public class MyController {
 	public String deleteOneProduct(@RequestParam Integer pid, Model model) {
 		repo.deleteById(pid);
 		model.addAttribute("msg","Product Deleted");
+		model.addAttribute("products", repo.findAll());
+		return "showproducts";
+	}
+	
+	@GetMapping("/editOneProduct")
+	public String editOneProduct(@RequestParam Integer pid, Model model) {
+		Optional<Product> opt = repo.findById(pid);
+		if(opt.isPresent()) {
+			Product p = opt.get();
+			model.addAttribute("product",p);
+		}
+		return "editproduct";
+	}
+	
+	@PostMapping("/updateProduct")
+	public String updateProduct(Model model,@Validated @ModelAttribute("product") Product product,
+			BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "editproduct";
+		}
+		
+		product = repo.save(product);
+		if(product.getId()!=null) {
+			model.addAttribute("msg","Product Updated");
+		}
 		model.addAttribute("products", repo.findAll());
 		return "showproducts";
 	}
@@ -102,14 +145,17 @@ public class MyController {
             <tr>
                 <td>Name:</td>
                 <td><input type="text" th:field="*{name}" id="name"></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></td>
             </tr>
             <tr>
                 <td>Price:</td>
-                <td><input type="text" th:field="*{price}" id="price"></td>
+                <td><input type="number" th:field="*{price}" id="price"></td>
+                <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></td>
             </tr>
             <tr>
                 <td>Quantity:</td>
-                <td><input type="text" th:field="*{quantity}" id="quantity"></td>
+                <td><input type="number" th:field="*{quantity}" id="quantity"></td>
+                <td th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></td>
             </tr>
         </table><br>
         <input type="reset" value="Reset" class="btn btn-secondary">
@@ -156,13 +202,60 @@ public class MyController {
             <td th:text="${product.price}"></td>
             <td th:text="${product.quantity}"></td>
             <td><a th:href="@{/deleteOneProduct(pid=${product.id})}"  onclick="return deleteConfirm()"
-            class="btn btn-danger">Delete</td>
+            class="btn btn-danger">Delete</a> || 
+            <a th:href="@{/editOneProduct(pid=${product.id})}" class="btn btn-warning">Edit</a>
+            </td>
         </tr>
         <tr>
 			<td th:if="${products == null or products.isEmpty()}" colspan="5" class="text-center">No Records Found</td>
 		</tr>
     </table>
     </div>
+</body>
+</html>
+```
+### editproduct.html
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+	<div class="container">
+    <h1>Edit Product Form</h1>
+    <p th:text="${msg}" class="text-success"></p>
+    <hr>
+    <form th:action="@{/updateProduct}" th:object=${product} method="post">
+        <table>
+			<tr>
+                <td>Id:</td>
+                <td><input type="text" th:field="*{id}" id="name" readonly></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" th:field="*{name}" id="name"></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></td>
+            </tr>
+            <tr>
+                <td>Price:</td>
+                <td><input type="number" th:field="*{price}" id="price"></td>
+                <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></td>
+            </tr>
+            <tr>
+                <td>Quantity:</td>
+                <td><input type="number" th:field="*{quantity}" id="quantity"></td>
+                <td th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger"></td>
+            </tr>
+        </table><br>
+        <input type="reset" value="Reset" class="btn btn-secondary">
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form><br>
+    <a href="/showProducts">View All Products</a>
+   </div>
 </body>
 </html>
 ```
