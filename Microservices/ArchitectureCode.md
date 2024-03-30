@@ -27,6 +27,13 @@ server.port=1111
 ## API-1
 **Dependencies:** Web, DevTools, Actuator<br>
 Eureka Client, Admin Client, Zipkin, Sleuth<br>
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+    <version>3.1.11</version>
+</dependency>
+```
 **Start Class:** @EnableDiscoveryClient<br>
 **application.properties**
 ```properties
