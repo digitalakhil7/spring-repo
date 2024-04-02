@@ -24,7 +24,7 @@ eureka.client.register-with-eureka=false
 server.port=1111
 ```
 
-## API-1
+## API-1 (GREET-API)
 **Dependencies:** Web, DevTools, Actuator<br>
 Eureka Client, Admin Client, Zipkin, Sleuth<br>
 ```xml
@@ -37,11 +37,68 @@ Eureka Client, Admin Client, Zipkin, Sleuth<br>
 **Start Class:** @EnableDiscoveryClient<br>
 **application.properties**
 ```properties
-spring.application.name=FirstApi
+spring.application.name=GREET-API
 server.port=8081
 
 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
 spring.boot.admin.client.url=http://localhost:1111
-spring.cloud.compatibility-verifier.enabled=false
-management.endpoints.web.exposure.include= *
+management.endpoints.web.exposure.include=*
+#spring.cloud.compatibility-verifier.enabled=false
+```
+### GreetController
+```java
+@RestController
+public class GreetController {
+	
+	@GetMapping("/greet")
+	public String sendGreet() {
+		return "Good Evening";
+	}
+}
+```
+## API-2 (WELCOME-API)
+**Dependencies:** Web, DevTools, Actuator<br>
+Eureka Client, Admin Client, Zipkin, Sleuth, OpenFeign<br>
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-sleuth</artifactId>
+    <version>3.1.11</version>
+</dependency>
+```
+**Start Class:** @EnableDiscoveryClient and @EnableFeignClients<br>
+**application.properties**
+```properties
+spring.application.name=WELCOME-API
+server.port=9091
+
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+spring.boot.admin.client.url=http://localhost:1111
+management.endpoints.web.exposure.include=*
+#spring.cloud.compatibility-verifier.enabled=false
+```
+### GreetFeignClient
+```java
+@FeignClient(name = "GREET-API")
+public interface GreetFeignClient {
+	@GetMapping("/greet")
+	public String getMsg();
+}
+
+```
+### WelcomeController
+```java
+@RestController
+public class WelcomeController {
+	
+	@Autowired
+	private GreetFeignClient feign;
+	
+	@GetMapping("/welcome")
+	public String sendWelcome() {
+		
+		String resp = feign.getMsg();
+		return resp + ", Welcome";
+	}
+}
 ```
