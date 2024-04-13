@@ -53,3 +53,27 @@ public class Application {
 
 }
 ```
+## Supplier
+1. Generating Random 5 digit OTP
+```java
+@SpringBootApplication
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+		//1. Generating Random 5 digit OTP
+		Supplier<String> s = () -> {
+			String otp = "";
+			for (int i = 1; i <=5; i++) {
+				otp = otp + (int) (Math.random()*10);
+			}
+			return otp;
+		};
+		
+		System.out.println(s.get());
+		System.out.println(s.get());
+		System.out.println(s.get());
+	}
+
+}
+```
