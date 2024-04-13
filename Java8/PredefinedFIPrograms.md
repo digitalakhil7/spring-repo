@@ -77,3 +77,10 @@ public class Application {
 
 }
 ```
+
+## Consumer
+forEach(Consumer) - iterating a list
+```java
+		List<Integer> nums = Arrays.asList(10,20,30,40);
+		nums.forEach(num -> System.out.println(num));
+```
