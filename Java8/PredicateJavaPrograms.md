@@ -1,0 +1,55 @@
+## Predicate Functional Interface Programs
+1.Take Array of Names and print names starting with A <br>
+2.Take a list of persons and print persons whose age is >=18<br>
+3.Employees working in Hyd location in DB department **(Using Predicate Joining)**<br>
+```java
+@SpringBootApplication
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+		
+		// 1. Take Array of Names and print names starting with A
+		String[] studentNames = {"Akhil","Anand","Nikhil","Sujatha"};
+		
+		Predicate<String> studentPredicate = (name) -> name.charAt(0) == 'A';
+		
+		for(String studentName : studentNames) {
+			if(studentPredicate.test(studentName))
+				System.out.println(studentName);
+		}
+		
+		//2. Take a list of persons and print persons whose age is >=18
+		List<Person> persons = new ArrayList<>();
+		persons.add(new Person(1, "Akhil", 26));
+		persons.add(new Person(2, "Ayansh", 8));
+		persons.add(new Person(3, "Nikhil", 22));
+		persons.add(new Person(3, "Benny", 13));
+		
+		Predicate<Person> predicate = (p) -> p.getAge() >= 18;
+		
+		for(Person person : persons) {
+			if(predicate.test(person))
+				System.out.println(person);
+		}
+		
+		//3. Employees working in Hyd location in DB department
+		List<Employee> employees = new ArrayList<>();
+		employees.add(new Employee("Akhil","Hyd","Dev"));
+		employees.add(new Employee("Rajesh","Hyd","DB"));
+		employees.add(new Employee("Swetha","Ben","DevOps"));
+		employees.add(new Employee("Udit","Kol","DB"));
+		
+		Predicate<Employee> ep1 = (e) -> e.getLocation() == "Hyd";
+		Predicate<Employee> ep2 = (e) -> e.getDepartment() == "DB";
+		// Predicate Joining
+		Predicate<Employee> ep = ep1.and(ep2);
+		
+		for(Employee employee : employees) {
+			if(ep.test(employee))
+				System.out.println(employee);
+		}
+	}
+
+}
+```
