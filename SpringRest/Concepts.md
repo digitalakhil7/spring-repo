@@ -17,6 +17,17 @@ Headers - Authorization, Cookies, Content-type, Accept
 		return new ResponseEntity<String>("CHECK: "+auth, HttpStatus.OK);
 	}
 ```
+### Send Header data from Controller
+```java
+	@GetMapping("/data")
+	public ResponseEntity<String> getData(){
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("MyHeader", "MyHeaderValue");
+		
+		return new ResponseEntity<>("Body",headers, HttpStatus.OK);
+	}
+```
 ## Dynamic return type <?>
 ```java
 	@GetMapping("/test")
