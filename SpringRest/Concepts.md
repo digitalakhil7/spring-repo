@@ -17,7 +17,18 @@ Headers - Authorization, Cookies, Content-type, Accept
 		return new ResponseEntity<String>("CHECK: "+auth, HttpStatus.OK);
 	}
 ```
-
+## Dynamic return type <?>
+```java
+	@GetMapping("/test")
+	public ResponseEntity<?> getTestData(){
+		if(false) {
+			return new ResponseEntity<String>("STRING", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<Integer>(10, HttpStatus.OK);
+		}
+	}
+```
 ## XML
 ```xml
 		<dependency>
