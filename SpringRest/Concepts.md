@@ -1,3 +1,23 @@
+## @RequestHeader
+To send header data to controller
+```java
+	@PostMapping("/details")
+	public ResponseEntity<String> showDetails(@RequestHeader("Content-Type") String type,
+			@RequestHeader("Authorization") String auth,
+			HttpServletRequest req){
+		
+		// Servlets
+		Enumeration<String> headerNames = req.getHeaderNames();
+		while(headerNames.hasMoreElements()) {
+			String nextElement = headerNames.nextElement();
+			System.out.println(nextElement);
+		}
+		
+		return new ResponseEntity<String>("CHECK: "+auth, HttpStatus.OK);
+	}
+```
+
+## XML
 ```xml
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
