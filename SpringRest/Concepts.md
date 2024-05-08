@@ -1,5 +1,6 @@
 ## @RequestHeader
-To send header data to controller
+To send header data to controller <br>
+Headers - Authorization, Cookies, Content-type, Accept
 ```java
 	@PostMapping("/details")
 	public ResponseEntity<String> showDetails(@RequestHeader("Content-Type") String type,
