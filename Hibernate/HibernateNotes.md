@@ -1,4 +1,4 @@
-JPA - sepcification <br>
+JPA - sepcification, makes applications loosely coupled with ORM tools <br>
 Hibernate - implementaion of JPA
 
 ## Features of Hibernate
@@ -22,11 +22,22 @@ One to One, One to Many, Many to One, Many to Many <br>
 1 Person - 1 Passport <br>
 1 Customer - (Many) Orders <br>
 (Many) Products - 1 Category <br>
-
-## Files:
+## Files in Hibernate with JPA
 1. Entity class
-2. Configuration file (hibernate.cfg.xml)
-3. Mapping file (hbm.xml) - Jpa Annotations are used in real time
+2. persistence.xml (src/main/resouces/META-INF/persistence.xml)
+3. Test class
+### Objects in JPA
+1. **EntityManagerFactory** object - has configuration data
+2. **EntityManager** object - establish connection with DB
+3. **EntityTransaction** - for insert, update, delete queries - Transaction Operations
+4. CRUD
+5. commit(), rollback() Transaction
+6. close emf, em
+
+## Files in Hibernate without JPA
+1. Entity class
+2. Configuration file (hibernate.cfg.xml in src/main/resources)
+3. Mapping file (hbm.xml in src/main/resources) - Jpa Annotations are used in real time
 4. Test class
 
 ### Mapping file - link class with table and variable with columns
@@ -77,9 +88,9 @@ dialect - prepares SQL queries wrt to db
 ```
 
 ### Test class
-1. SessionFactory object - has configuration data
-2. Session object - establish connection with DB
-3. Trasaction - for insert, update, delete queries - Transaction Operations
+1. **SessionFactory** object - has configuration data
+2. **Session** object - establish connection with DB
+3. **Trasaction** - for insert, update, delete queries - Transaction Operations
 4. CRUD
-5. commit, rollback Transaction
+5. commit(), rollback() Transaction
 6. close session, sessionFactory
