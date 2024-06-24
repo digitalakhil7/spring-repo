@@ -1,3 +1,12 @@
+## Actuator
+To manage and monitor applications <br>
+**Dependencies:** Web, DevTools, Actuator <br>
+**To Access Actuators:** localhost:8080/actuator <br>
+By default only 1 actuator **/health** is exposed, to expose all actuators use the below properties
+```properties
+server.port=9090
+management.endpoints.web.exposure.include=*
+```
 ## @RequestHeader
 To send header data to controller <br>
 Headers - Authorization, Cookies, Content-type, Accept
