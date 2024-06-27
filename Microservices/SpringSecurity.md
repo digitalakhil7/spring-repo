@@ -58,3 +58,22 @@ public class SecurityConfigurer {
 	}
 }
 ```
+## OAUTH
+**Pre-requisites:** **clientId** and **clientSecret** from GitHub (Settings -> Developer Settings -> OAUTH Apps) <br>
+**Dependencies:** Web, Devtools, Security, OAUTH
+### application.properties
+```properties
+spring.security.oauth2.client.registration.github.client-id=Ov23liFqvFBYEG7r
+spring.security.oauth2.client.registration.github.client-secret=5de6348f1ffb4df459e8762bfbecb
+```
+### RestController
+```java
+@RestController
+public class MyController {
+	
+	@GetMapping("/")
+	public String showHome() {
+		return "Welcome to HomePage";
+	}
+}
+```
