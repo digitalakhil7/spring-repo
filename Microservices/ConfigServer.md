@@ -1,5 +1,5 @@
 ## Prerequisites
-properites files with same name as application names
+properites files with same name as application names **(OR)** application.properties (default)
 ```git
 https://github.com/digitalakhil7/config-server-app
 ```
