@@ -102,3 +102,37 @@ public class WelcomeController {
 	}
 }
 ```
+## API Gateway
+**Dependencies:** Reactive Web, DevTools, Eureka Client, Reactive Gateway<br>
+**Start Class:** @EnableDiscoveryClient<br>
+**application.yml** (for Routing)
+```yml
+spring:
+  cloud:
+    gateway:
+      discovery.locator:
+        enabled: true
+        lowerCaseServiceId: true
+      routes:
+      - id: AnyName
+        uri: lb://GREET-API
+        predicates:
+        - Path=/greet
+      - id: AnyWelcomeName
+        uri: lb://WELCOME-API
+        predicates:
+        - Path=/welcome
+  application:
+    name: ApiGateway
+server:
+  port: 2222
+  
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+```
