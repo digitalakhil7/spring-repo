@@ -136,3 +136,34 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 ```
+### Filtering
+```java
+@Component
+public class MyFilter implements GlobalFilter {
+
+
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+		
+		System.out.println("Filter executed");
+
+		// Accessing HTTP Request information
+		ServerHttpRequest request = exchange.getRequest();
+
+		HttpHeaders headers = request.getHeaders();
+		Set<String> keySet = headers.keySet();
+		
+//		keySet.forEach(key -> {
+//			List<String> values = headers.get(key);
+//			System.out.println(key +" :: "+values);
+//		});
+		
+		for(String key : keySet) {
+			System.out.print(key + " -- ");
+			System.out.println(headers.getValuesAsList(key));
+		}
+
+		return chain.filter(exchange);
+	}
+}
+```
