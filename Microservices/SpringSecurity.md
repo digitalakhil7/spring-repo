@@ -59,6 +59,20 @@ public class SecurityConfigurer {
 	}
 }
 ```
+```java
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/private","/hidden")
+                .authenticated().requestMatchers("/contact","/about").permitAll());
+        http.formLogin(withDefaults());
+        http.httpBasic(withDefaults());
+        return http.build();
+    }
+}
+```
 ## OAUTH
 **Pre-requisites:** **clientId** and **clientSecret** from GitHub (Settings -> Developer Settings -> OAUTH Apps) <br>
 **Dependencies:** Web, Devtools, Security, OAUTH
