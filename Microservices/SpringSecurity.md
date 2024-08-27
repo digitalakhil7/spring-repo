@@ -13,6 +13,7 @@ spring.security.user.password=akhil
 By default SpringSecurity provides security to all the HttpMethods
 
 ## Secure Specific URLs
+default Security Configurations are present in `SpringBootWebSecurityConfiguration` class in `defaultSecurityFilterChain` method<br>
 /about and /contact should be available to everyone, but /hidden and /private should be avaiable to only logged in users
 ### RestController
 ```java
