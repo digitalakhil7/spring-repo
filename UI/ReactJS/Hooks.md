@@ -1,4 +1,4 @@
-## useState()
+## useState() - Count App
 ```js
 import React, { useState } from 'react'
 
@@ -22,6 +22,34 @@ function App() {
       <h1>{count}</h1>
       <button onClick={increment}>Increment</button>
       <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default App
+```
+## useState() - Time App
+```js
+import React, { useState } from 'react'
+
+function App() {
+
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+  //1. setTime on button click
+  function getNewTime(){
+    setTime(new Date().toLocaleTimeString());
+  }
+
+  //2. setTime for every 1 sec
+  // setInterval(() => {
+  //   setTime(new Date().toLocaleTimeString());
+  // }, 1000);
+
+  return (
+    <div>
+      <h1>{time}</h1>
+      <button onClick={getNewTime}>GET TIME</button>
     </div>
   )
 }
