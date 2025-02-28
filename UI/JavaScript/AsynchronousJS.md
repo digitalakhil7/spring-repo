@@ -46,3 +46,19 @@ async function fetchUsers(){
 
 fetchUsers();
 ```
+## fetch() using then() and async-await
+```js
+let userPromise = fetch('https://api.github.com/users/digitalakhil7');
+
+// async-await
+async function consumeUserPromise(){
+    let response = await userPromise;
+    let data = await response.json();
+    console.log(data);
+}
+
+consumeUserPromise();
+
+// then()
+// userPromise.then(response => response.json()).then(data => console.log(data));
+```
