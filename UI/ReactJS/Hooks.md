@@ -60,3 +60,34 @@ function App() {
 
 export default App
 ```
+## useReducer() - Counter App
+const [state, dispatch] = useReducer(reducer, initialState); <br/>
+useReducer is an alternative to useState() Hook <br/>
+dispatch function will be sent as action to the reducer function
+```js
+import React, { useReducer } from "react"
+
+function App() {
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "inc":
+        return state + 1;
+      case "dec":
+        return state - 1;
+      default:
+        return state;
+    }
+  }
+  const[state, dispatch] = useReducer(reducer, 0);
+  return(
+    <div>
+      <h1>Reducer: {state}</h1>
+      <button onClick={()=>dispatch({type:"inc"})}>Increment</button>
+      <button onClick={()=>dispatch({type:"dec"})}>Decrement</button>
+    </div>
+  )
+}
+
+
+export default App
+```
