@@ -1,3 +1,7 @@
+## Project setup using Vite
+```js
+npm create vite@latest my-react-app --template react
+```
 ## useState() - Count App
 ```js
 import React, { useState } from 'react'
