@@ -1,4 +1,15 @@
 **Note:** fetch() and async functions return a Promise <br/>
+```js
+let userPromise = fetch('https://api.github.com/users/digitalakhil7');
+
+console.log(userPromise);
+
+async function namePromise() {
+    return "akhil";
+}
+
+console.log(namePromise());
+```
 Producer creates a Promise using Promise class <br/>
 Consumer consumes a Promise using then() or async-await
 ## 1. Callbacks
