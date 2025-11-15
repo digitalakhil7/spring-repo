@@ -1,4 +1,15 @@
 ## JWT
+Jwt consists of 3 parts
+1. Header
+2. Payload (Claims)
+3. Signature
+
+### JWT Flow
+<img width="600" height="401" alt="JWT Flow" src="https://github.com/user-attachments/assets/343b267e-5a9d-4d6f-96fa-6667a5ea4b77" />
+
+for token generation and validation we need secretKey
+
+## Code
 ### maven dependencies
 ```xml
 		<dependency>
