@@ -44,6 +44,10 @@ public class JwtTest {
 		.getBody();
 		
 		System.out.println(c);
+		
+		// 3. validate token: exp(date) > current(date)
+		boolean isValid = c.getExpiration().after(new Date(System.currentTimeMillis()));
+		System.out.println(isValid);
 	}
 }
 ```
