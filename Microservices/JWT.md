@@ -1,0 +1,49 @@
+## JWT
+### maven dependencies
+```xml
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+```
+### Token Generation and Reading
+```java
+public class JwtTest {
+
+	public static void main(String[] args) {
+		
+		// 1. Generating Token using secretKey
+		String token = Jwts.builder()
+		.setId("1")
+		.setSubject("Akhil")
+		.setIssuer("companyName")
+		.setIssuedAt(new Date(System.currentTimeMillis()))
+		.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(10)))
+		.signWith(Keys.hmacShaKeyFor("alongandbigsecreykeytotestjwttokens".getBytes()))
+		.compact();
+		
+		System.out.println(token);
+		
+		// 2. Reading / Parse token using secretKey and token
+		Claims c = Jwts.parserBuilder()
+		.setSigningKey(Keys.hmacShaKeyFor("alongandbigsecreykeytotestjwttokens".getBytes())).build()
+		.parseClaimsJws(token)
+		.getBody();
+		
+		System.out.println(c);
+	}
+}
+```
