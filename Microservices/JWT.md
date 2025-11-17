@@ -8,8 +8,52 @@ Jwt consists of 3 parts
 <img width="600" height="401" alt="JWT Flow" src="https://github.com/user-attachments/assets/343b267e-5a9d-4d6f-96fa-6667a5ea4b77" />
 
 for token generation and validation we need secretKey
+## Code Nimbus
+### maven dependency
+```xml
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>10.5</version>
+		</dependency>
+```
+## Token generation and validation
+```java
+public class JwtNimbusTest {
 
-## Code
+	public static void main(String[] args) throws KeyLengthException, JOSEException, ParseException {
+
+		String SECRET_KEY = "anylongsecretkeyinencodedformatwithaminimum265bitlength";
+		
+		// 1. generate token
+		JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+		
+		JWTClaimsSet claims = new JWTClaimsSet.Builder()
+					          .jwtID("1")
+					          .subject("Akhil")
+					          .issuer("companyName")
+					          .issueTime(new Date(System.currentTimeMillis()))
+					          .expirationTime(new Date(System.currentTimeMillis() + 1000 * 5))
+					          .build();
+		
+		SignedJWT signature = new SignedJWT(header, claims);
+		signature.sign(new MACSigner(SECRET_KEY));
+		String token = signature.serialize();
+		System.out.println(token);
+		
+		// 2. parse and validate token (verify signature and expirationTime)
+		SignedJWT signature1 = SignedJWT.parse(token);
+		
+		boolean signatureValid = signature1.verify(new MACVerifier(SECRET_KEY));
+		boolean tokenNotExpired = signature1.getJWTClaimsSet().getExpirationTime().after(new Date(System.currentTimeMillis()));
+		
+		if(signatureValid && tokenNotExpired)
+			System.out.println("perform next steps");
+	}
+}
+```
+
+## Code JJWT
 ### maven dependencies
 ```xml
 		<dependency>
