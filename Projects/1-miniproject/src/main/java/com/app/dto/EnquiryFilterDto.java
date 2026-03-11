@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EnquiryFilterDto {
-	private String classMode;
+	private String studentClassMode;
 	private String course;
-	private String status;
+	private String enquiryStatus;
 }

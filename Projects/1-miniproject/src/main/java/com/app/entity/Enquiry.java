@@ -31,7 +31,7 @@ public class Enquiry {
 	
 	private String studentCourse;
 	
-	private String studentStatus;
+	private String enquiryStatus;
 	
 	@ManyToOne
 	@JoinColumn(name = "course_id")
