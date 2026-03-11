@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class EnquiryFilterDto {
 	private String studentClassMode;
-	private String course;
+	private Integer courseId;
 	private String enquiryStatus;
 }

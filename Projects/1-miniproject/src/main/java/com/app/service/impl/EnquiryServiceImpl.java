@@ -51,10 +51,14 @@ public class EnquiryServiceImpl implements EnquiryService {
 	@Override
 	public List<Enquiry> getFilteredEnquiriesByCounsellorId(EnquiryFilterDto enquiryFilterDto, Integer counsellorId) {
 		
+		Counsellor counsellor = counsellorRepository.findByCounsellorId(counsellorId).orElseThrow();
+		Course course = courseRepository.findByCourseId(enquiryFilterDto.getCourseId()).orElseThrow();
+		
 		Enquiry enquiry = new Enquiry();
 		enquiry.setStudentClassMode(enquiryFilterDto.getStudentClassMode());
-		enquiry.setCourse(null);
+		enquiry.setCourse(course);
 		enquiry.setEnquiryStatus(enquiryFilterDto.getEnquiryStatus());
+		enquiry.setCounsellor(counsellor);
 		
 		return enquiryRepository.findAll(Example.of(enquiry));
 	}
