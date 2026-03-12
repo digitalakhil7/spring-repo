@@ -16,7 +16,9 @@ import com.app.repository.CounsellorRepository;
 import com.app.repository.CourseRepository;
 import com.app.repository.EnquiryRepository;
 import com.app.service.EnquiryService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EnquiryServiceImpl implements EnquiryService {
 	
 	@Autowired
@@ -52,12 +54,18 @@ public class EnquiryServiceImpl implements EnquiryService {
 	public List<Enquiry> getFilteredEnquiriesByCounsellorId(EnquiryFilterDto enquiryFilterDto, Integer counsellorId) {
 		
 		Counsellor counsellor = counsellorRepository.findByCounsellorId(counsellorId).orElseThrow();
-		Course course = courseRepository.findByCourseId(enquiryFilterDto.getCourseId()).orElseThrow();
 		
 		Enquiry enquiry = new Enquiry();
-		enquiry.setStudentClassMode(enquiryFilterDto.getStudentClassMode());
-		enquiry.setCourse(course);
-		enquiry.setEnquiryStatus(enquiryFilterDto.getEnquiryStatus());
+		if(enquiryFilterDto.getStudentClassMode() != null && !enquiryFilterDto.getStudentClassMode().isBlank()) {
+			enquiry.setStudentClassMode(enquiryFilterDto.getStudentClassMode());
+		}
+		if(enquiryFilterDto.getCourseId() != null) {
+			Course course = courseRepository.findByCourseId(enquiryFilterDto.getCourseId()).orElseThrow();
+			enquiry.setCourse(course);
+		}
+		if(enquiryFilterDto.getEnquiryStatus() != null && !enquiryFilterDto.getEnquiryStatus().isBlank()) {
+			enquiry.setEnquiryStatus(enquiryFilterDto.getEnquiryStatus());
+		}
 		enquiry.setCounsellor(counsellor);
 		
 		return enquiryRepository.findAll(Example.of(enquiry));
