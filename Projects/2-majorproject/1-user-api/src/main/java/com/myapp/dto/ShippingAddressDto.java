@@ -3,7 +3,7 @@ package com.myapp.dto;
 import lombok.Data;
 
 @Data
-public class AddressDto {
+public class ShippingAddressDto {
     private Integer addressId;
     private String houseNum;
     private String city;

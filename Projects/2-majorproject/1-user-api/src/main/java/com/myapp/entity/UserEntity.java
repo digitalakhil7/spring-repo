@@ -23,6 +23,7 @@ public class UserEntity {
     private String userEmail;
     private String userPassword;
     private Long userPhoneNo;
+    private String isPasswordUpdated;
     @CreationTimestamp
     private LocalDate userCreatedDate;
     @UpdateTimestamp
